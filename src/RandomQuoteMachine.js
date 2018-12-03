@@ -5,6 +5,10 @@ const quotes = [
   {
     quote: 'Brooooo',
     author: 'Matt Riddle'
+  },
+  {
+    quote: "I'm in the top 1 percent",
+    author: 'EC3'
   }
 ];
 
@@ -36,9 +40,10 @@ class NewQuote extends React.Component {
 
 class TweetQuote extends React.Component {
   render() {
+    let link = `https://www.twitter.com/intent/tweet?text=${this.props.quoteInfo.quote} - ${this.props.quoteInfo.author}`;
     return(
       <div>
-        <button id="tweet-quote">Tweet Quote</button>
+        <a href={link} id="tweet-quote">Tweet Quote</a>
       </div>
     );
   }
@@ -47,10 +52,21 @@ class TweetQuote extends React.Component {
 class QuoteBox extends React.Component {
   constructor(props) {
     super(props);
+    const index = Math.floor(Math.random() * quotes.length);
+    this.state = {
+      currentQuote: quotes[index],
+      currentIndex: index
+    }
   }
 
   getNewQuote() {
-
+    const updatedQuotes = quotes.split(0, this.state.currentIndex).concat(quotes.split(this.state.currentIndex + 1));
+    let i = Math.floor(Math.random() * quotes.length);
+    i = i === this.state.currentIndex ? i - 1 : i;
+    this.setState({
+      currentQuote: quotes[i],
+      currentIndex: i
+    });
   }
 
   render() {
@@ -59,10 +75,10 @@ class QuoteBox extends React.Component {
     let quoteObject = quotes[Math.floor(Math.random() * quotes.length)];
     return (
       <div id="quote-box">
-      <TextField quoteText={quoteObject.quote} />
-      <AuthorField quoteAuthor={quoteObject.author} />
-      <NewQuote />
-      <TweetQuote />
+        <TextField quoteText={quoteObject.quote} />
+        <AuthorField quoteAuthor={quoteObject.author} />
+        <NewQuote />
+        <TweetQuote quoteInfo={quoteObject}/>
       </div>
     );
   };
