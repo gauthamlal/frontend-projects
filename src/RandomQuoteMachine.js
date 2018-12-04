@@ -9,6 +9,10 @@ const quotes = [
   {
     quote: "I'm in the top 1 percent",
     author: 'EC3'
+  },
+  {
+    quote: 'Adam Cole, Bay Bay!',
+    author: 'Adam Cole'
   }
 ];
 
@@ -32,7 +36,7 @@ class NewQuote extends React.Component {
   render() {
     return(
       <div>
-        <button id="new-quote">New Quote</button>
+        <button id="new-quote" onClick={this.props.onClick}>New Quote</button>
       </div>
     );
   }
@@ -52,38 +56,38 @@ class TweetQuote extends React.Component {
 class QuoteBox extends React.Component {
   constructor(props) {
     super(props);
-    const index = Math.floor(Math.random() * quotes.length);
+    let randomIndex = Math.floor(Math.random() * quotes.length);
     this.state = {
-      currentQuote: quotes[index],
-      currentIndex: index
-    }
+      currentQuote: quotes[randomIndex],
+      currentIndex: randomIndex
+    };
   }
 
   getNewQuote() {
-    const updatedQuotes = quotes.split(0, this.state.currentIndex).concat(quotes.split(this.state.currentIndex + 1));
-    let i = Math.floor(Math.random() * quotes.length);
-    i = i === this.state.currentIndex ? i - 1 : i;
+    let newIndex = Math.floor(Math.random() * quotes.length);
+    if (newIndex === this.state.currentIndex) {
+      if (newIndex === quotes.length - 1) {
+        newIndex -= 1;
+      } else {
+        newIndex += 1;
+      }
+    }
     this.setState({
-      currentQuote: quotes[i],
-      currentIndex: i
+      currentQuote: quotes[newIndex],
+      currentIndex: newIndex
     });
   }
 
   render() {
-    let i = Math.floor(Math.random() * quotes.length);
-    console.log(i);
-    let quoteObject = quotes[Math.floor(Math.random() * quotes.length)];
     return (
       <div id="quote-box">
-        <TextField quoteText={quoteObject.quote} />
-        <AuthorField quoteAuthor={quoteObject.author} />
-        <NewQuote />
-        <TweetQuote quoteInfo={quoteObject}/>
+      <TextField quoteText={this.state.currentQuote.quote} />
+      <AuthorField quoteAuthor={this.state.currentQuote.author} />
+      <NewQuote onClick={() => this.getNewQuote()}/>
+      <TweetQuote quoteInfo={this.state.currentQuote}/>
       </div>
     );
   };
 }
 
 export default QuoteBox;
-
-// ReactDOM.render(<QuoteBox />, document.getElementById('root'));
