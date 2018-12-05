@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import QuoteBox from './RandomQuoteMachine';
+// import QuoteBox from './RandomQuoteMachine';
+import Editor from './markdown-previewer';
 // import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<QuoteBox />, document.getElementById('root'));
+// ReactDOM.render(<QuoteBox />, document.getElementById('root'));
+ReactDOM.render(<Editor />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

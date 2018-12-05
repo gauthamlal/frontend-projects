@@ -1,5 +1,7 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../node_modules/font-awesome/css/font-awesome.min.css';
+import './randomQuoteMachine.css';
 
 const quotes = [
   {
@@ -47,7 +49,7 @@ class TweetQuote extends React.Component {
     let link = `https://www.twitter.com/intent/tweet?text=${this.props.quoteInfo.quote} - ${this.props.quoteInfo.author}`;
     return(
       <div>
-        <a href={link} id="tweet-quote">Tweet Quote</a>
+        <a target="_blank" href={link} id="tweet-quote"><i className="fa fa-twitter-square fa-3x"></i></a>
       </div>
     );
   }
@@ -80,11 +82,17 @@ class QuoteBox extends React.Component {
 
   render() {
     return (
-      <div id="quote-box">
-      <TextField quoteText={this.state.currentQuote.quote} />
-      <AuthorField quoteAuthor={this.state.currentQuote.author} />
-      <NewQuote onClick={() => this.getNewQuote()}/>
-      <TweetQuote quoteInfo={this.state.currentQuote}/>
+      <div className="card cont">
+        <div className="card-body" id="quote-box">
+          <div className="quote-info">
+            <TextField quoteText={this.state.currentQuote.quote} />
+            <AuthorField quoteAuthor={this.state.currentQuote.author} />
+          </div>
+          <div className="buttons">
+            <NewQuote onClick={() => this.getNewQuote()}/>
+            <TweetQuote quoteInfo={this.state.currentQuote}/>
+          </div>
+        </div>
       </div>
     );
   };
