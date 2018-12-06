@@ -1,0 +1,28 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.drum-pad {
+  background-color: grey;
+  width: 40px;
+  height: 50px;
+  color: white;
+  float: left;
+  border: 1px solid black;
+  margin-top: 2px;
+  box-shadow: 3px 1px black;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.drum-pad:hover {
+  background-color: #A9A9A9;
+}
+
+.drum-pad:active {
+  background-color: #989898;
+}
