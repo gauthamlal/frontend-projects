@@ -1,6 +1,22 @@
 button {
+  -webkit-touch-callout: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: default;
   width: 40px;
   height: 40px;
+}
+
+button:hover {
+  background-color: black;
+  color: white;
+  border: 1px solid pink;
+}
+
+button:focus {
+  outline:0;
 }
 
 #root {

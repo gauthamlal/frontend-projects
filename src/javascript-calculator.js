@@ -77,6 +77,7 @@ class CalButton extends React.Component {
     return(
       <button
         id={calculatorButtons[this.props.id].id}
+        key={this.props.id}
         value={calculatorButtons[this.props.id].key}
         onClick={this.props.keyClick}>
         {calculatorButtons[this.props.id].key}
@@ -88,7 +89,7 @@ class CalButton extends React.Component {
 class CalBoard extends React.Component {
   renderButton(i) {
     return(
-      <CalButton keyClick={() => this.props.addKey(i)} id={i}/>
+      <CalButton key={i} keyClick={() => this.props.addKey(i)} id={i}/>
     );
   }
   shouldComponentUpdate(nextProps) {
@@ -110,13 +111,13 @@ class CalBoard extends React.Component {
   }*/
   render() {
     let completeBoard = [];
-    completeBoard.push(<div className="cal-row">{this.renderButton(16)}</div>);
+    completeBoard.push(<div key={`key0`} className="cal-row">{this.renderButton(16)}</div>);
     for (let i = 0; i < 4; i++) {
       let rowBoard = [];
       for (let  j = 0; j < 4; j++) {
         rowBoard.push(this.renderButton(4 * i + j));
       }
-      completeBoard.push(<div className="cal-row">{rowBoard}</div>);
+      completeBoard.push(<div key={`key${i+1}`} className="cal-row">{rowBoard}</div>);
     }
     return(<div>{completeBoard}</div>);
   }
@@ -127,25 +128,46 @@ class Calculator extends React.Component {
     super(props);
     this.state = {
       display: '0',
-      numberOfChars: 0
+      numberOfChars: 0,
+      lastNumberStartingIndex: 0
     }
   }
   handleClick(i) {
-    let newDisplay = '';
-    let newNumberOfChars = 0;
-    // console.log('regex tester', regexForDecimal.test(calculatorButtons[i].key));
+    console.log(calculatorButtons[i]);
+    let newDisplay = this.state.display;
+    let newNumberOfChars = this.state.numberOfChars;
+    let newLastNumberStartingIndex = this.state.lastNumberStartingIndex;
+
     if (calculatorButtons[i].key === 'C') {
       newDisplay = '0';
       newNumberOfChars = 0;
+      newLastNumberStartingIndex = 0;
     } else if (calculatorButtons[i].key === '=') {
-      newDisplay = eval(this.state.display).toString();
+      newDisplay = (Math.round(eval(this.state.display)*10000)/10000).toString();
       newNumberOfChars = newDisplay.length;
+      newLastNumberStartingIndex = 0;
     } else if (calculatorButtons[i].key === '.') {
-      let displayLength = this.state.display.length;
-      console.log('displayLength', displayLength);
-      console.log('char at length-1', displayLength);
-      newDisplay = this.state.display[displayLength-1] === calculatorButtons[i].key ? this.state.display : this.state.display.concat(calculatorButtons[i].key);
-      newNumberOfChars = this.state.display[displayLength-1] === calculatorButtons[i].key ? this.state.numberOfChars : this.state.numberOfChars + 1;
+      console.log('newLastNumberStartingIndex', newLastNumberStartingIndex);
+      if (!newDisplay.slice(newLastNumberStartingIndex).includes('.')) {
+        newDisplay = newDisplay.concat(calculatorButtons[i].key);
+        newNumberOfChars++;
+      }
+    } else if ('+-*/'.includes(calculatorButtons[i].key)) {
+      if (this.state.numberOfChars === 0) {
+        if (calculatorButtons[i].key === '-') {
+          newDisplay = ''.concat(calculatorButtons[i].key);
+          newNumberOfChars = this.state.numberOfChars + 1;
+        }
+      } else {
+        let displayLength = newDisplay.length;
+        if ('+-*/'.includes(newDisplay[displayLength-1])) {
+          newDisplay = newDisplay.slice(0, displayLength-1).concat(calculatorButtons[i].key);
+        } else {
+          newDisplay = this.state.display.concat(calculatorButtons[i].key);
+          newNumberOfChars = this.state.numberOfChars + 1;
+        }
+      }
+      newLastNumberStartingIndex = newDisplay.length - 1;
     } else {
       newDisplay = this.state.numberOfChars !== 0 ? this.state.display.concat(calculatorButtons[i].key) :
     calculatorButtons[i].key !== '0' ? ''.concat(calculatorButtons[i].key) : this.state.display;
@@ -154,7 +176,8 @@ class Calculator extends React.Component {
     }
     this.setState({
       display: newDisplay,
-      numberOfChars: newNumberOfChars
+      numberOfChars: newNumberOfChars,
+      lastNumberStartingIndex: newLastNumberStartingIndex
     });
   }
   render() {
