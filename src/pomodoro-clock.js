@@ -1,10 +1,14 @@
 import React from 'react';
+import './pomodoro-clock.css';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
 
 class BreakComponent extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    return this.props.length !== nextProps.length;
+  }
   render() {
     return(
-      <div>
+      <div className="class-div">
         <div id="break-label">Break Length</div>
         <div id="break-length">{this.props.length}</div>
         <button id="break-decrement" onClick={this.props.dec}><i className="fa fa-arrow-down"></i></button>
@@ -15,9 +19,12 @@ class BreakComponent extends React.Component {
 }
 
 class SessionComponent extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    return this.props.length !== nextProps.length;
+  }
   render() {
     return(
-      <div>
+      <div className="class-div">
         <div id="session-label">Session Length</div>
         <div id="session-length">{this.props.length}</div>
         <button id="session-decrement" onClick={this.props.dec}><i className="fa fa-arrow-down"></i></button>
@@ -28,6 +35,9 @@ class SessionComponent extends React.Component {
 }
 
 class TimerComponent extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    return this.props.timer !== nextProps.timer || this.props.isSession !== nextProps.isSession;
+  }
   render() {
     let currentLabel = 'Session';
     if (!this.props.isSession) {
@@ -36,11 +46,11 @@ class TimerComponent extends React.Component {
     let minsRem = Math.floor(this.props.timer/60);
     let secsRem = this.props.timer%60;
     return(
-      <div>
+      <div className="class-div timer">
         <div id="timer-label">{currentLabel}</div>
         <div id="time-left">{ minsRem < 10 ? '0'+minsRem :minsRem }:{ secsRem < 10 ? '0'+secsRem : secsRem}</div>
-        <div id="start_stop" onClick={this.props.startTimer}><i className="fa fa-play" /><i className="fa fa-pause" /></div>
-        <div id="reset" onClick={this.props.resetTimer}><i className="fa fa-refresh" /></div>
+        <button id="start_stop" onClick={this.props.startTimer}><i className="fa fa-play" /><i className="fa fa-pause" /></button>
+        <button id="reset" onClick={this.props.resetTimer}><i className="fa fa-refresh" /></button>
         <audio id="beep" src="https://goo.gl/65cBl1"></audio>
       </div>
     );
@@ -69,6 +79,8 @@ class PomodoroClock extends React.Component {
 
   decTimer () {
     if (this.state.timer === 0) {
+      let alarmAudio = document.getElementById('beep');
+      alarmAudio.play();
       this.setState({
         timer: this.state.isSession ? this.state.breakLength * 60 : this.state.sessionLength * 60,
         isSession: !this.state.isSession
@@ -91,10 +103,23 @@ class PomodoroClock extends React.Component {
     });
   }
 
+  setColor(timer) {
+    if (timer < 60) {
+      document.documentElement.style.setProperty('--primary-color', '#e60000');
+      document.documentElement.style.setProperty('--secondary-color', '#ffffff');
+    } else {
+      document.documentElement.style.setProperty('--primary-color', '#ffffff');
+      document.documentElement.style.setProperty('--secondary-color', '#e60000');
+    }
+  }
+
   resetTimer() {
     if (!this.state.runTimer) {
       clearInterval(this.intervalId);
     }
+    let alarmAudio = document.getElementById('beep');
+    alarmAudio.pause();
+    alarmAudio.currentTime = 0;
     this.setState({
       sessionLength: 25,
       breakLength: 5,
@@ -139,12 +164,13 @@ class PomodoroClock extends React.Component {
   }
 
   render() {
+    this.setColor(this.state.timer);
     return(
       <div>
-        <div>Pomodoro Clock</div>
+        <div className="title">Pomodoro Clock</div>
         <BreakComponent inc={this.handleBreakIncrement} dec={this.handleBreakDecrement} length={this.state.breakLength}/>
-        <SessionComponent inc={this.handleSessionIncrement} dec={this.handleSessionDecrement} length={this.state.sessionLength}/>
         <TimerComponent startTimer={this.startTimer} resetTimer={this.resetTimer} isSession={this.state.isSession} timer={this.state.timer} />
+        <SessionComponent inc={this.handleSessionIncrement} dec={this.handleSessionDecrement} length={this.state.sessionLength}/>
       </div>
     );
   }

@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css?family=Orbitron');
+
+body {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  font-size: 30px;
+  text-align: center;
+  font-family: 'Orbitron', Verdana;
+}
+
+#root {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+#root button {
+  background: none;
+  outline: none;
+  border: none;
+  color: var(--secondary-color);
+}
+
+.class-div {
+  border: 1px solid var(--secondary-color);
+  border-radius: 25px;
+}
+
+.timer {
+  font-size: 40px;
+}
+
+.title {
+  font-size: 50px;
+}
