@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Bungee');
+
 #root {
   display: flex;
   justify-content: center;
@@ -6,13 +8,14 @@
 }
 
 body {
-  background: #c2c2d6;
+  background: #cc0000;
   -webkit-touch-callout: none;
   -moz-user-select: none;
   -ms-user-select: none;
   -webkit-user-select: none;
   user-select: none;
   cursor: default;
+  font-family: 'Bungee';
 }
 
 .drum-pad {
@@ -23,9 +26,16 @@ body {
   border: 1px solid black;
   margin-top: 5px;
   margin-right: 5px;
-  box-shadow: 3px 2px 3px black;
+  box-shadow: 3px 3px 5px black;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
+  text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+}
+
+#display {
+  font-size: 30px;
+  text-align: center;
+  text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
 }
