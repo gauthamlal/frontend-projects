@@ -13,47 +13,56 @@ let padKeys = [
   {
     keyAlphabet: 'Q',
     src: 'https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3',
-    keyCode: 81
+    keyCode: 81,
+    displayTitle: 'KICK!'
   },
   {
     keyAlphabet: 'W',
     src: 'https://s3.amazonaws.com/freecodecamp/drums/Dry_Ohh.mp3',
-    keyCode: 87
+    keyCode: 87,
+    displayTitle: 'Dry Ohh!'
   },
   {
     keyAlphabet: 'E',
     src: 'https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3',
-    keyCode: 69
+    keyCode: 69,
+    displayTitle: 'Cev H2!'
   },
   {
     keyAlphabet: 'A',
     src: 'https://s3.amazonaws.com/freecodecamp/drums/Brk_Snr.mp3',
-    keyCode: 65
+    keyCode: 65,
+    displayTitle: 'SNARE!'
   },
   {
     keyAlphabet: 'S',
     src: 'https://s3.amazonaws.com/freecodecamp/drums/Kick_n_Hat.mp3',
-    keyCode: 83
+    keyCode: 83,
+    displayTitle: 'KICK n\' HAT'
   },
   {
     keyAlphabet: 'D',
     src: 'https://s3.amazonaws.com/freecodecamp/drums/Dsc_Oh.mp3',
-    keyCode: 68
+    keyCode: 68,
+    displayTitle: 'Dsc Oh!'
   },
   {
     keyAlphabet: 'Z',
     src: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3',
-    keyCode: 90
+    keyCode: 90,
+    displayTitle: 'HEATER 1!'
   },
   {
     keyAlphabet: 'X',
     src: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3',
-    keyCode: 88
+    keyCode: 88,
+    displayTitle: 'HEATER 2!'
   },
   {
     keyAlphabet: 'C',
     src: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3',
-    keyCode: 67
+    keyCode: 67,
+    displayTitle: 'HEATER 3!'
   }
 ];
 
@@ -145,7 +154,7 @@ class DrumMachine extends React.Component {
     console.log(i, "i");
     console.log('Inside handleClick');
     this.setState({
-      display: padKeys[i].keyAlphabet,
+      display: padKeys[i].displayTitle,
       selectedPad: i
     });
     let audioToPlay = document.getElementById(padKeys[i].keyAlphabet);
