@@ -4,71 +4,88 @@ import './javascript-calculator.css';
 const calculatorButtons = [
   {
     key: '7',
-    id: 'seven'
+    id: 'seven',
+    class: 'number-button'
   },
   {
     key: '8',
-    id: 'eight'
+    id: 'eight',
+    class: 'number-button'
   },
   {
     key: '9',
-    id: 'nine'
+    id: 'nine',
+    class: 'number-button'
   },
   {
     key: '/',
-    id: 'divide'
+    id: 'divide',
+    class: 'operator-button'
   },
   {
     key: '4',
-    id: 'four'
+    id: 'four',
+    class: 'number-button'
   },
   {
     key: '5',
-    id: 'five'
+    id: 'five',
+    class: 'number-button'
   },
   {
     key: '6',
-    id: 'six'
+    id: 'six',
+    class: 'number-button'
   },
   {
     key: '*',
-    id: 'multiply'
+    id: 'multiply',
+    class: 'operator-button'
   },
   {
     key: '1',
-    id: 'one'
+    id: 'one',
+    class: 'number-button'
   },
   {
     key: '2',
-    id: 'two'
+    id: 'two',
+    class: 'number-button'
   },
   {
     key: '3',
-    id: 'three'
+    id: 'three',
+    class: 'number-button'
   },
   {
     key: '-',
-    id: 'subtract'
+    id: 'subtract',
+    class: 'operator-button'
   },
   {
     key: '.',
-    id: 'decimal'
+    id: 'decimal',
+    class: 'number-button'
   },
   {
     key: '0',
-    id: 'zero'
+    id: 'zero',
+    class: 'number-button'
   },
   {
     key: '=',
-    id: 'equals'
+    id: 'equals',
+    class: 'operator-button'
   },
   {
     key: '+',
-    id: 'add'
+    id: 'add',
+    class: 'operator-button'
   },
   {
     key: 'C',
-    id: 'clear'
+    id: 'clear',
+    class: 'clear-button'
   }
 ];
 
@@ -77,6 +94,7 @@ class CalButton extends React.Component {
     return(
       <button
         id={calculatorButtons[this.props.id].id}
+        className={calculatorButtons[this.props.id].class}
         key={this.props.id}
         value={calculatorButtons[this.props.id].key}
         onClick={this.props.keyClick}>
@@ -111,7 +129,7 @@ class CalBoard extends React.Component {
   }*/
   render() {
     let completeBoard = [];
-    completeBoard.push(<div key={`key0`} className="cal-row">{this.renderButton(16)}</div>);
+    completeBoard.push(<div id="clear-row" key={`key0`} className="cal-row">{this.renderButton(16)}</div>);
     for (let i = 0; i < 4; i++) {
       let rowBoard = [];
       for (let  j = 0; j < 4; j++) {
@@ -182,7 +200,7 @@ class Calculator extends React.Component {
   }
   render() {
     return(
-      <div>
+      <div id="calculator">
         <div id="display">{this.state.display}</div>
         <CalBoard addKey={i => this.handleClick(i)}/>
       </div>

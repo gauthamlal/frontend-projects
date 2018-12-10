@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Changa');
+
+#root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
 button {
   -webkit-touch-callout: none;
   -moz-user-select: none;
@@ -5,22 +14,43 @@ button {
   -webkit-user-select: none;
   user-select: none;
   cursor: default;
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 50px;
+  color: white;
+  outline: none;
+  border: none;
 }
 
 button:hover {
-  background-color: black;
-  color: white;
-  border: 1px solid pink;
+  border: 1px solid grey;
+  background-color: #4d4d4d;
 }
 
 button:focus {
   outline:0;
 }
 
-#root {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+#display {
+  text-align: right;
+  background-color: black;
+  color: #ff9900;
+  font-size: 30px;
+  font-family: 'Changa', Verdana;
+}
+
+.number-button {
+  background-color: #3b3b3b;
+}
+
+.operator-button {
+  background-color: #404040;
+}
+
+.clear-button {
+  width: 100%;
+  background-color: #802000;
+}
+
+.clear-button:hover {
+  background-color: #992600;
 }
