@@ -1,6 +1,14 @@
 import React from 'react';
 import './drum-machine.css';
 
+const drumPadActiveStyle = {
+  backgroundColor: '#989898'
+};
+
+let drumPadInactiveStyle = {
+  backgroundColor: 'grey'
+}
+
 let padKeys = [
   {
     keyAlphabet: 'Q',
@@ -50,10 +58,17 @@ let padKeys = [
 ];
 
 class DrumPad extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.selected === nextProps.index) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   render() {
     console.log(this.props.index, "insideDrumPad");
     return (
-      <div id={this.props.index} className="drum-pad" onClick={this.props.play}>
+      <div id={this.props.index} className="drum-pad"  onClick={this.props.play} style={this.props.padStyle}>
         <audio src={padKeys[this.props.index].src} id={padKeys[this.props.index].keyAlphabet} className="clip"></audio>
         {padKeys[this.props.index].keyAlphabet}
       </div>
@@ -63,14 +78,14 @@ class DrumPad extends React.Component {
 
 class DrumBoard extends React.Component {
 
-  shouldComponentUpdate(nextProps) {
-    return false;
-  }
+  // shouldComponentUpdate(nextProps) {
+  //   return false;
+  // }
 
   renderPad(i) {
     console.log(i, 'inside drumboard');
     return (
-      <DrumPad key={i} play={() => this.props.playAudio(i)} index={i} />
+      <DrumPad selected={this.props.selected} padStyle={this.props.padStyle} key={i} play={() => this.props.playAudio(i)} index={i} />
     );
   }
 
@@ -98,16 +113,26 @@ class DrumMachine extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      display: "Let's Rock n' Roll!"
+      display: "Let's Rock n' Roll!",
+      padStyle: drumPadInactiveStyle,
+      selectedPad: -1
     }
+    this.changeColor = this.changeColor.bind(this);
   }
 
   componentDidMount() {
     document.addEventListener('keydown',this.handleKeyDown);
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  changeColor() {
+    this.state.padStyle.backgroundColor === '#989898' ? this.setState({padStyle: drumPadInactiveStyle}) : this.setState({padStyle: drumPadActiveStyle});
+  }
+
   handleKeyDown = (event) => {
-    console.log(event.keyCode);
     for (let i = 0; i < padKeys.length; i++) {
       if (event.keyCode === padKeys[i].keyCode) {
         this.handleClick(i);
@@ -120,17 +145,20 @@ class DrumMachine extends React.Component {
     console.log(i, "i");
     console.log('Inside handleClick');
     this.setState({
-      display: padKeys[i].keyAlphabet
+      display: padKeys[i].keyAlphabet,
+      selectedPad: i
     });
     let audioToPlay = document.getElementById(padKeys[i].keyAlphabet);
     audioToPlay.play();
+    this.changeColor();
+    setTimeout(this.changeColor, 100);
   }
 
   render() {
     return(
       <div id="drum-machine">
         <div id="display">{this.state.display}</div>
-        <DrumBoard playAudio={i => this.handleClick(i)}/>
+        <DrumBoard selected={this.state.selectedPad} padStyle={this.state.padStyle} playAudio={i => this.handleClick(i)}/>
       </div>
     );
   }

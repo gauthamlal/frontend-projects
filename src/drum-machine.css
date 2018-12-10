@@ -1,3 +1,10 @@
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 body {
   background: #c2c2d6;
   -webkit-touch-callout: none;
@@ -8,33 +15,17 @@ body {
   cursor: default;
 }
 
-#root {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
 .drum-pad {
-  background-color: grey;
-  width: 40px;
-  height: 50px;
+  width: 100px;
+  height: 70px;
   color: white;
   float:left;
   border: 1px solid black;
   margin-top: 5px;
   margin-right: 5px;
-  box-shadow: 3px 2px black;
+  box-shadow: 3px 2px 3px black;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.drum-pad:hover {
-  background-color: #A9A9A9;
-}
-
-.drum-pad:active {
-  background-color: #989898;
 }
